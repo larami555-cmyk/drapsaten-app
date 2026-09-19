@@ -538,7 +538,7 @@ footer.credit{
   <div class="backup-content">
     <div class="backup-card">
       <h4>Valor del punto · DRAPSATEN GENERAL</h4>
-      <p>Los precios de la tarifa GENERAL son puntos. El precio final se calcula como puntos × valor del punto. Cámbialo aquí cuando toque actualizarlo.</p>
+      <p>Los modelos muestran el PVP de la tarifa. El coste (PVP × valor del punto) aparece en pequeño en la ficha de cada modelo, junto al ancho y el largo. Cámbialo aquí cuando toque actualizarlo.</p>
       <div class="size-selectors" style="grid-template-columns:1fr; margin:0 0 10px;">
         <div class="field">
           <label>Valor del punto (€)</label>
@@ -729,7 +729,8 @@ function allWidthsOf(p){ return p.cols.flatMap(g=>g); }
 function colIndexForWidth(p, ancho){
   return p.cols.findIndex(g=>g.map(String).includes(String(ancho)));
 }
-function pointsFor(p, ancho, largo){
+// The tarifa PDF gives the PVP (precio de venta al público) directly.
+function pvpFor(p, ancho, largo){
   const ci = colIndexForWidth(p, ancho);
   if(ci === -1) return null;
   const row = (String(largo)==="200") ? p.p200 : p.p180190;
@@ -741,14 +742,18 @@ try {
   if(!isNaN(saved) && saved > 0) pointValueGeneral = saved;
 } catch(e){}
 
-function priceFor(p, ancho, largo){
-  const pts = pointsFor(p, ancho, largo);
-  return pts === null ? null : pts * pointValueGeneral;
+// Coste = PVP × valor del punto (uso interno, no se muestra al cliente)
+function costFor(p, ancho, largo){
+  const pvp = pvpFor(p, ancho, largo);
+  return pvp === null ? null : pvp * pointValueGeneral;
 }
+// priceFor mantiene el nombre por compatibilidad: es el precio principal (PVP)
+function priceFor(p, ancho, largo){ return pvpFor(p, ancho, largo); }
+
 function formatEUR(n){
   return n.toLocaleString('es-ES', {minimumFractionDigits:2, maximumFractionDigits:2}) + " €";
 }
-function minPrice(p){ return Math.min(...p.p180190) * pointValueGeneral; }
+function minPrice(p){ return Math.min(...p.p180190); }
 function maxWidthOf(p){ return Math.max(...allWidthsOf(p)); }
 
 const ALL_LARGOS_G = [180,190,200]; // 180 and 190 share the same "180/190" row
@@ -965,7 +970,7 @@ function priceMatrixHTML(p, selAncho, selLargo){
   function row(largoLabel, values, isSelRow){
     return "<tr><th>"+largoLabel+"</th>" + values.map((v,i)=>{
       const isHl = isSelRow && colIndexForWidth(p, selAncho)===i;
-      return `<td class="${isHl?'hl':''}">${formatEUR(v*pointValueGeneral)}</td>`;
+      return `<td class="${isHl?'hl':''}">${formatEUR(v)}</td>`;
     }).join("") + "</tr>";
   }
   const sel180 = (String(selLargo)!=="200");
@@ -986,8 +991,10 @@ function openSheetGeneral(id){
   sheetImg.src = p.img;
 
   function renderSheetPrice(){
-    const price = priceFor(p, currentSelG.ancho, currentSelG.largo);
-    document.getElementById("gPriceVal").textContent = price ? formatEUR(price) : "—";
+    const pvp = priceFor(p, currentSelG.ancho, currentSelG.largo);
+    const coste = costFor(p, currentSelG.ancho, currentSelG.largo);
+    document.getElementById("gPriceVal").textContent = pvp ? formatEUR(pvp) : "—";
+    document.getElementById("gCosteInline").textContent = coste ? `Coste: ${formatEUR(coste)}` : "";
     document.getElementById("gMatrixWrap").innerHTML = priceMatrixHTML(p, currentSelG.ancho, currentSelG.largo);
   }
 
@@ -1009,7 +1016,7 @@ function openSheetGeneral(id){
 
     <div class="sheet-section">
       <h4>Calcula el precio</h4>
-      <div class="size-selectors">
+      <div class="size-selectors" style="margin-bottom:6px;">
         <div class="field">
           <label>Ancho</label>
           <select id="gAncho">${widths.map(w=>`<option value="${w}">${w} cm</option>`).join("")}</select>
@@ -1019,14 +1026,15 @@ function openSheetGeneral(id){
           <select id="gLargo">${ALL_LARGOS_G.map(l=>`<option value="${l}">${l} cm</option>`).join("")}</select>
         </div>
       </div>
+      <div id="gCosteInline" style="font-size:12px; color:var(--ink-soft); margin:0 0 14px;"></div>
       <div class="sheet-price-card">
-        <div class="lbl">Precio para esta medida</div>
+        <div class="lbl">PVP para esta medida</div>
         <div class="val" id="gPriceVal">—</div>
       </div>
     </div>
 
     <div class="sheet-section">
-      <h4>Tarifa completa</h4>
+      <h4>Tarifa completa (PVP)</h4>
       <div class="price-matrix-wrap" id="gMatrixWrap"></div>
     </div>
   `;
@@ -1062,11 +1070,11 @@ function buildExportCardHTMLGeneral(p){
       <div class="ec-name">${p.name}</div>
       <div class="ec-fw">Medida: ${currentSelG.ancho} × ${currentSelG.largo} cm</div>
 
-      <h4 style="font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:#8c8577; margin:18px 0 8px;">Tarifa completa</h4>
+      <h4 style="font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:#8c8577; margin:18px 0 8px;">Tarifa completa (PVP)</h4>
       ${priceMatrixHTML(p, currentSelG.ancho, currentSelG.largo).replace('class="price-matrix"','class="price-matrix" style="width:100%; border-collapse:collapse; font-size:13px;"')}
 
       <div class="ec-price" style="margin-top:20px;">
-        <span class="lbl">Precio (${currentSelG.ancho}×${currentSelG.largo} cm)</span>
+        <span class="lbl">PVP (${currentSelG.ancho}×${currentSelG.largo} cm)</span>
         <span class="val">${price ? formatEUR(price) : "—"}</span>
       </div>
     </div>
