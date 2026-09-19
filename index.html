@@ -477,6 +477,17 @@ footer.credit{
         </div>
       </div>
 
+      <div class="field-row">
+        <div class="field">
+          <label>Altura desde</label>
+          <select id="fAlturaDesdeG"><option value="">Sin mínimo</option></select>
+        </div>
+        <div class="field">
+          <label>Altura hasta</label>
+          <select id="fAlturaHastaG"><option value="">Sin máximo</option></select>
+        </div>
+      </div>
+
       <div class="field-row" style="grid-template-columns:1fr;">
         <div class="field order">
           <label>Orden</label>
@@ -484,6 +495,8 @@ footer.credit{
             <option value="nombre">Nombre A–Z</option>
             <option value="precio-asc">Precio (menor a mayor)</option>
             <option value="precio-desc">Precio (mayor a menor)</option>
+            <option value="altura-asc">Altura (menor a mayor)</option>
+            <option value="altura-desc">Altura (mayor a menor)</option>
           </select>
         </div>
       </div>
@@ -698,29 +711,29 @@ const COLS_7 = [[80,90],[100,105],[120,135],[140,150],[160],[180],[200]];
 const COLS_6 = [[80,90],[100,105],[120,135],[140,150],[160],[180]];
 
 const PRODUCTS_GENERAL = [
-  { id:"cabaret", name:"Cabaret", linea:"Heritage", composicion:["Muelle ensacado"], img:"./images/general/cabaret.jpg", cols:COLS_7,
+  { id:"cabaret", name:"Cabaret", linea:"Heritage", altura:32, firmeza:"Firm 3/5", composicion:["Látex natural","Muelle ensacado"], img:"./images/general/cabaret.jpg", cols:COLS_7,
     p180190:[2376,2694,3281,3605,3995,4428,5092], p200:[2468,2803,3433,3751,4146,4636,5331] },
-  { id:"boheme", name:"Boheme", linea:"Heritage", composicion:["Muelle ensacado"], img:"./images/general/boheme.jpg", cols:COLS_7,
+  { id:"boheme", name:"Boheme", linea:"Heritage", altura:30, firmeza:"Firm 4/5", composicion:["Látex natural","Muelle ensacado"], img:"./images/general/boheme.jpg", cols:COLS_7,
     p180190:[2007,2258,2787,3046,3386,3737,4297], p200:[2093,2359,2933,3184,3529,3935,4526] },
-  { id:"can-can", name:"Can Can", linea:"Heritage", composicion:["Muelle ensacado"], img:"./images/general/can-can.jpg", cols:COLS_7,
+  { id:"can-can", name:"Can Can", linea:"Heritage", altura:28, firmeza:"Firm 3/5", composicion:["Látex natural","Muelle ensacado"], img:"./images/general/can-can.jpg", cols:COLS_7,
     p180190:[1502,1681,2064,2247,2506,2757,3170], p200:[1579,1772,2195,2372,2635,2935,3375] },
-  { id:"topper-heritage", name:"Topper Heritage", linea:"Heritage", composicion:["Muelle ensacado"], img:"./images/general/topper-heritage.jpg", cols:COLS_7,
+  { id:"topper-heritage", name:"Topper Heritage", linea:"Heritage", altura:12, firmeza:"Firm 2/5", composicion:["Muelle ensacado"], img:"./images/general/topper-heritage.jpg", cols:COLS_7,
     p180190:[893,987,1179,1279,1404,1532,1762], p200:[922,1022,1222,1324,1453,1588,1826] },
-  { id:"sc-deluxe-ii", name:"SC Deluxe II", linea:"Ergo", composicion:["Viscoelástica"], img:"./images/general/sc-deluxe-ii.jpg", cols:COLS_6,
+  { id:"sc-deluxe-ii", name:"SC Deluxe II", linea:"Ergo", altura:24, firmeza:"Firm 4/5", composicion:["Viscoelástica","Espumación"], img:"./images/general/sc-deluxe-ii.jpg", cols:COLS_6,
     p180190:[2813,3376,4469,5019,5045,5712], p200:[2813,3376,4469,5019,5045,5712] },
-  { id:"sc-deluxe-ii-funda", name:"SC Deluxe II Funda Acolchada", linea:"Ergo", composicion:["Viscoelástica"], img:"./images/general/sc-deluxe-ii-funda.jpg", cols:COLS_6,
+  { id:"sc-deluxe-ii-funda", name:"SC Deluxe II Funda Acolchada", linea:"Ergo", altura:24, firmeza:"Firm 4/5", composicion:["Viscoelástica","Espumación"], img:"./images/general/sc-deluxe-ii-funda.jpg", cols:COLS_6,
     p180190:[3080,3708,4912,5523,5548,6288], p200:[3080,3708,4912,5523,5548,6288] },
-  { id:"orion", name:"Orion Firm · Medium · Soft", linea:"Ergo", composicion:["Viscoelástica"], img:"./images/general/orion.jpg", cols:COLS_7,
+  { id:"orion", name:"Orion Firm · Medium · Soft", linea:"Ergo", altura:25, firmeza:"Firm 2/5 · 3/5 · 4/5", composicion:["Viscoelástica","Espumación","Articulado"], img:"./images/general/orion.jpg", cols:COLS_7,
     p180190:[955,1078,1317,1444,1581,1748,2010], p200:[1003,1136,1389,1522,1665,1844,2120] },
-  { id:"dinasty", name:"Dinasty Firm · Medium · Soft", linea:"Ergo", composicion:["Viscoelástica"], img:"./images/general/dinasty.jpg", cols:COLS_7,
+  { id:"dinasty", name:"Dinasty Firm · Medium · Soft", linea:"Ergo", altura:28, firmeza:"Firm 2/5 · 3/5 · 4/5", composicion:["Látex natural","Muelle ensacado","Airmousse","Espumación"], img:"./images/general/dinasty.jpg", cols:COLS_7,
     p180190:[1165,1337,1651,1824,2035,2272,2613], p200:[1227,1412,1760,1926,2138,2423,2787] },
-  { id:"sc-natura-latex-crino", name:"SC Natura Látex Crino", linea:"Látex", composicion:["Látex natural"], img:"./images/general/sc-natura-latex-crino.jpg", cols:COLS_7,
+  { id:"sc-natura-latex-crino", name:"SC Natura Látex Crino", linea:"Látex", altura:22, firmeza:"Firm 4/5", composicion:["Látex natural"], img:"./images/general/sc-natura-latex-crino.jpg", cols:COLS_7,
     p180190:[1864,2130,2653,2913,3129,3479,4001], p200:[1944,2224,2768,3040,3265,3631,4176] },
-  { id:"sc-natura-latex-4", name:"SC Natura Látex 4", linea:"Látex", composicion:["Látex natural"], img:"./images/general/sc-natura-latex-4.jpg", cols:COLS_7,
+  { id:"sc-natura-latex-4", name:"SC Natura Látex 4", linea:"Látex", altura:24, firmeza:"Firm 1/5 · 3/5", composicion:["Látex natural"], img:"./images/general/sc-natura-latex-4.jpg", cols:COLS_7,
     p180190:[1560,1782,2211,2427,2600,2893,3326], p200:[1644,1880,2331,2561,2742,3052,3509] },
-  { id:"sc-natura-evolution", name:"SC Natura Evolution", linea:"Látex", composicion:["Látex natural"], img:"./images/general/sc-natura-evolution.jpg", cols:COLS_7,
+  { id:"sc-natura-evolution", name:"SC Natura Evolution", linea:"Látex", altura:20, firmeza:"Firm 4/5", composicion:["Látex natural"], img:"./images/general/sc-natura-evolution.jpg", cols:COLS_7,
     p180190:[1378,1573,1947,2135,2288,2543,2925], p200:[1447,1652,2046,2244,2404,2673,3074] },
-  { id:"bio-latex-spring", name:"Bio Látex Spring", linea:"Látex", composicion:["Látex natural"], img:"./images/general/bio-latex-spring.jpg", cols:COLS_7,
+  { id:"bio-latex-spring", name:"Bio Látex Spring", linea:"Látex", altura:24, firmeza:"Firm 4/5", composicion:["Látex natural","Muelle ensacado"], img:"./images/general/bio-latex-spring.jpg", cols:COLS_7,
     p180190:[1763,2010,2416,2648,2844,3158,3632], p200:[1849,2110,2534,2779,2984,3314,3811] }
 ];
 
@@ -833,12 +846,15 @@ document.getElementById("clearFilters").addEventListener("click", ()=>{
 
 /* ================= GENERAL: STATE + INIT SELECTS ================= */
 const stateG = {
-  search: "", ancho: "", largo: "", orden: "nombre", comp: new Set()
+  search: "", ancho: "", largo: "", alturaDesde: "", alturaHasta: "", orden: "nombre", comp: new Set()
 };
 
 const allAnchoG = uniqueSorted(PRODUCTS_GENERAL.flatMap(p=>allWidthsOf(p)));
 fillSelect(document.getElementById("fAnchoG"), allAnchoG, " cm");
 fillSelect(document.getElementById("fLargoG"), ALL_LARGOS_G, " cm");
+const allAlturasG = uniqueSorted(PRODUCTS_GENERAL.map(p=>p.altura));
+fillSelect(document.getElementById("fAlturaDesdeG"), allAlturasG, " cm");
+fillSelect(document.getElementById("fAlturaHastaG"), allAlturasG, " cm");
 
 const allComposicionG = uniqueSorted(PRODUCTS_GENERAL.flatMap(p=>p.composicion));
 const lineaTagsG = document.getElementById("lineaTagsG");
@@ -865,11 +881,15 @@ filtersToggleG.addEventListener("click", ()=>{
 document.getElementById("searchInputG").addEventListener("input", e=>{ stateG.search = e.target.value.toLowerCase(); renderGeneral(); });
 document.getElementById("fAnchoG").addEventListener("change", e=>{ stateG.ancho = e.target.value; renderGeneral(); });
 document.getElementById("fLargoG").addEventListener("change", e=>{ stateG.largo = e.target.value; renderGeneral(); });
+document.getElementById("fAlturaDesdeG").addEventListener("change", e=>{ stateG.alturaDesde = e.target.value; renderGeneral(); });
+document.getElementById("fAlturaHastaG").addEventListener("change", e=>{ stateG.alturaHasta = e.target.value; renderGeneral(); });
 document.getElementById("fOrdenG").addEventListener("change", e=>{ stateG.orden = e.target.value; renderGeneral(); });
 document.getElementById("clearFiltersG").addEventListener("click", ()=>{
-  stateG.ancho=""; stateG.largo=""; stateG.orden="nombre"; stateG.comp.clear();
+  stateG.ancho=""; stateG.largo=""; stateG.alturaDesde=""; stateG.alturaHasta=""; stateG.orden="nombre"; stateG.comp.clear();
   document.getElementById("fAnchoG").value="";
   document.getElementById("fLargoG").value="";
+  document.getElementById("fAlturaDesdeG").value="";
+  document.getElementById("fAlturaHastaG").value="";
   document.getElementById("fOrdenG").value="nombre";
   lineaTagsG.querySelectorAll(".tag-chip").forEach(c=>c.classList.remove("active"));
   renderGeneral();
@@ -879,12 +899,16 @@ function activeFilterCountG(){
   let n=0;
   if(stateG.ancho) n++;
   if(stateG.largo) n++;
+  if(stateG.alturaDesde) n++;
+  if(stateG.alturaHasta) n++;
   n += stateG.comp.size;
   return n;
 }
 function matchesGeneral(p){
   if(stateG.search && !p.name.toLowerCase().includes(stateG.search)) return false;
   if(stateG.ancho && colIndexForWidth(p, stateG.ancho) === -1) return false;
+  if(stateG.alturaDesde && p.altura < parseInt(stateG.alturaDesde)) return false;
+  if(stateG.alturaHasta && p.altura > parseInt(stateG.alturaHasta)) return false;
   if(stateG.comp.size){
     const ok = [...stateG.comp].every(c=>p.composicion.includes(c));
     if(!ok) return false;
@@ -901,6 +925,8 @@ function renderGeneral(){
   if(stateG.orden === "nombre") list.sort((a,b)=>a.name.localeCompare(b.name));
   else if(stateG.orden === "precio-asc") list.sort((a,b)=>minPrice(a)-minPrice(b));
   else if(stateG.orden === "precio-desc") list.sort((a,b)=>minPrice(b)-minPrice(a));
+  else if(stateG.orden === "altura-asc") list.sort((a,b)=>a.altura-b.altura);
+  else if(stateG.orden === "altura-desc") list.sort((a,b)=>b.altura-a.altura);
 
   document.getElementById("resultsMetaG").textContent =
     list.length + (list.length===1 ? " modelo encontrado" : " modelos encontrados");
@@ -932,7 +958,8 @@ function renderGeneral(){
         <div class="card-title-row">
           <h3>${p.name}</h3>
         </div>
-        <div class="card-spec">Ancho ${Math.min(...allWidthsOf(p))}–${maxWidthOf(p)} cm · Largo 180–200 cm</div>
+        <div class="card-spec">${p.altura} cm de alto · ${p.firmeza}</div>
+        <div class="card-dims">Ancho ${Math.min(...allWidthsOf(p))}–${maxWidthOf(p)} cm · Largo 180–200 cm</div>
         <div class="card-divider"></div>
         <div class="card-price-row">
           <div class="price-block">
@@ -955,7 +982,7 @@ function renderModelsGridGeneral(){
     tile.className = "model-tile";
     tile.innerHTML = `
       <div class="tile-name">${p.name}</div>
-      <div class="tile-sub">${p.linea} · desde ${formatEUR(minPrice(p))}</div>
+      <div class="tile-sub">${p.altura} cm · ${p.linea} · desde ${formatEUR(minPrice(p))}</div>
     `;
     tile.addEventListener("click", ()=>openSheetGeneral(p.id));
     grid.appendChild(tile);
@@ -1002,7 +1029,7 @@ function openSheetGeneral(id){
   sheetContent.innerHTML = `
     <div class="sheet-eyebrow">SweetBedding · Línea ${p.linea}</div>
     <h2>${p.name}</h2>
-    <div class="sheet-fw"><span class="linea-badge">${p.linea}</span></div>
+    <div class="sheet-fw"><span class="linea-badge">${p.linea}</span> · ${p.altura} cm de alto · ${p.firmeza}</div>
 
     <div class="sheet-actions">
       <button class="sheet-action-btn" id="btnDownloadFichaG">
