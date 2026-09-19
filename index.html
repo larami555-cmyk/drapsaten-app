@@ -939,6 +939,7 @@ function renderGeneral(){
             <span class="price-value">Desde ${formatEUR(minPrice(p))}</span>
           </div>
         </div>
+        <div style="font-size:12px; color:var(--ink-soft); margin-top:2px;">Coste desde ${formatEUR(minPrice(p)*pointValueGeneral)}</div>
       </div>
     `;
     card.addEventListener("click", ()=>openSheetGeneral(p.id));
